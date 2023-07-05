@@ -22,13 +22,13 @@ include 'panggil.php';
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <form>
                     <li class="nav-item">
-                        <a href="index.php?page=kelas" class="nav-link align-middle px-0">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline"><input type="button" value="Filter"></span>
+                        <a href="index.php?page=kelas&" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline"><button class="btn btn-secondary" type="submit">Filter</button></span>
                         </a>
                     </li>
                     <li>
                         <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                        <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline"><a href="index.php?page=kelas">Kelas</a></span> </a>
+                        <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline"><a href="index.php?page=kelas">Semua Kelas</a></span> </a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <?php
                              $query = "SELECT * FROM kategori_kelas";
@@ -38,53 +38,11 @@ include 'panggil.php';
                              foreach ($result as $x) {
                              ?>
                             <li class="w-100">
-                                <a href="index.php?page=kelas" class="nav-link px-0"> <span class="d-none d-sm-inline"><input type="checkbox" id="id_kategori[]" name="id_kategori[]" value="" />
+                                <a href="index.php?page=kelas" class="nav-link px-0"> <span class="d-none d-sm-inline"><input type="checkbox" id="id_kategori[]" name="id_kategori[]" value="<?= $x['id_kategori_kelas']?>" <?php echo isset($_GET['id_kategori']) && in_array('?', $_GET['id_kategori']) ? 'checked' : '';?>/>
                                 <label><?= $x['nama_kategori'] ?></label>
                             </span></a>
                             </li>
                             <?php }; ?>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Level</span></a>
-                        <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                        <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                            <?php
-                             $query2 = "SELECT * FROM level_kelas";
-                             $level = $koneksiDB->prepare($query2);
-                             $level->execute();
-                             $result2 = $level->fetchAll(PDO::FETCH_ASSOC);
-                             foreach ($result2 as $y) {
-                             ?>
-                            <li class="w-100">
-                                <a href="index.php?page=kelas" class="nav-link px-0"> <span class="d-none d-sm-inline"><input type="checkbox" id="id_level[]" name="id_level[]" value="" />
-                                <label><?= $y['nama_level'] ?></label>
-                            </span></a>
-                            </li>
-                            <?php }; ?>
-                        </ul>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Tipe</span> </a>
-                            <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                            <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                            <?php
-                             $query3 = "SELECT * FROM tipe_kelas";
-                             $tipe = $koneksiDB->prepare($query3);
-                             $tipe->execute();
-                             $result3 = $tipe->fetchAll(PDO::FETCH_ASSOC);
-                             foreach ($result3 as $z) {
-                             ?>
-                            <li class="w-100">
-                                <a href="index.php?page=kelas" class="nav-link px-0"> <span class="d-none d-sm-inline"><input type="checkbox" id="id_tipe[]" name="id_tipe[]" value="" />
-                                <label><?= $z['nama_tipe'] ?></label>
-                            </span></a>
-                            </li>
-                            <?php }; ?>
-                        </ul>
                         </ul>
                     </li>
                 </ul>
@@ -117,10 +75,13 @@ include 'panggil.php';
                      if(isset($_GET['page'])){
                         $page = $_GET['page'];
                     }
-                    if(isset($page)){
+                    if(empty($page)){
+                        include 'kelas/kelas2.php';
+                    }
+                    elseif(isset($page)){
                         switch ($page){
                             case 'kelas':
-                                include_once 'kelas/kelas.php';
+                                include 'kelas/kelas2.php';
                                 break;
                             case 'pretest';
                                 include_once 'test/pretest.php';

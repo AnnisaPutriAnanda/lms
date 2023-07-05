@@ -1,6 +1,9 @@
 <?php
-include 'panggil.php';
-$query="SELECT * FROM soal WHERE jenis='pretest'";
+if(isset($_GET['id'])){
+    $id_kelas = $_GET['id'];
+}
+
+$query="SELECT * FROM soal WHERE jenis='pretest' AND id_kelas='$id_kelas'";
 $statement = $koneksiDB->prepare($query);
 $statement->execute();
 $result = $statement->fetchAll();

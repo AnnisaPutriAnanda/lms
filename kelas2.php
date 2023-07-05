@@ -1,6 +1,8 @@
 <?php
 include 'panggil.php';
 ?>
+<br>
+<nav class = "navbar navbar-expand-sm bg-light">  
 <div class="checkbox">
 <form method="GET">
 <!--  -->
@@ -40,24 +42,25 @@ foreach ($result3 as $z) {
 <label><?= $z['nama_tipe'] ?></label>
 <?php }; ?>
 <!--  -->
-<button type="submit">Filter</button>
+<button class="btn btn-secondary" type="submit">Filter</button>
 <!--  -->
 </form>
 </div>
-
+</nav>
+<br>
 <?php echo '<div hidden>'; print_r($_GET); echo '</div>'; ?>
-<table border=1>
-<thead>
-<td>id</td>
-<td>Kategori</td>
-<td>Level</td>
-<td>Tipe</td>
-<td>Alur</td>
-<td>Nama</td>
-<td>Harga</td>
-<td colspan=2>Aksi</td>
+<html>
+    <table class="table table-striped table-bordered" border=1>
+        <thead>
+            <td style="display:none">id</td>
+           <td>Kategori</td>
+           <td>Level</td>
+           <td>Tipe</td>
+           <td style="display:none">Alur</td>
+           <td>Nama</td>
+           <td>Harga</td>
+           <td colspan="2">Kelas</td>
 </thead>
-<tbody>
     <?php
     if(!empty($_GET)){
     $sql ="SELECT * FROM kelas AS a INNER JOIN kategori_kelas AS b ON a.id_kategori=b.id_kategori_kelas INNER JOIN level_kelas AS c ON a.id_level=c.id_level_kelas INNER JOIN tipe_kelas AS d ON a.id_tipe=d.id_tipe_kelas INNER JOIN alur_belajar AS e ON a.id_alur=e.id_alur WHERE 1 ";
@@ -111,17 +114,16 @@ foreach ($result3 as $z) {
         $query->execute($filter);
     
         while ($result = $query->fetch()) {
-            echo '<tr>';
-            echo '<td>'.htmlentities($result['id_kelas']).'</td>';
+            echo '<tbody>';
+            echo '<td style="display:none">'.htmlentities($result['id_kelas']).'</td>';
             echo '<td>'.htmlentities($result['nama_kategori']).'</td>';
             echo '<td>'.htmlentities($result['nama_level']).'</td>';
             echo '<td>'.htmlentities($result['nama_tipe']).'</td>';
-            echo '<td>'.htmlentities($result['nama_alur']).'</td>';
+            echo '<td style="display:none">'.htmlentities($result['nama_alur']).'</td>';
             echo '<td>'.htmlentities($result['nama_kelas']).'</td>';
             echo '<td>'.htmlentities($result['harga_kelas']).'</td>';
-            echo '<td> <button class>Daftar Kelas</button></td>';
-            echo '<td> <button class>Ikuti Pretest</button></td>';
-            echo '</tr>';
+            echo '<td><p class="btn btn-secondary">Daftar kelas</p></td>';
+            echo '<td><a class="btn btn-secondary" href="index.php?page=pretest">Ikuti Pra-test</a></td>';
         }
 
 }
@@ -130,16 +132,17 @@ else {
     $query = $koneksiDB->prepare($sql);
     $query->execute();
     while ($result = $query->fetch()) {
+        echo '<tbody>';
         echo '<tr>';
-        echo '<td>'.htmlentities($result['id_kelas']).'</td>';
+        echo '<td style="display:none">'.htmlentities($result['id_kelas']).'</td>';
         echo '<td>'.htmlentities($result['nama_kategori']).'</td>';
         echo '<td>'.htmlentities($result['nama_level']).'</td>';
         echo '<td>'.htmlentities($result['nama_tipe']).'</td>';
-        echo '<td>'.htmlentities($result['nama_alur']).'</td>';
+        echo '<td style="display:none">'.htmlentities($result['nama_alur']).'</td>';
         echo '<td>'.htmlentities($result['nama_kelas']).'</td>';
         echo '<td>'.htmlentities($result['harga_kelas']).'</td>';
-        echo '<td> <button class>Daftar Kelas</button></td>';
-        echo '<td> <button class>Ikuti Pretest</button></td>';
+        echo '<td><p class="btn btn-secondary">Daftar kelas</p></td>';
+        echo '<td><a class="btn btn-secondary" href="index.php?page=pretest">Ikuti Pra-test</a></td>';
         echo '</tr>';
     }
-} echo '</table>';
+} echo ' </tbody></table></html>';
